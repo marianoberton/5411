@@ -1,80 +1,86 @@
+'use client'
+import { motion, useInView, animate } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import { FadeUp } from '@/components/ui/Motion'
+
+const expo: [number, number, number, number] = [0.16, 1, 0.3, 1]
+
+const stats = [
+    { valor: '+100', label: 'Unidades entregadas', lado: 'izquierda' },
+    { valor: '+4.000', label: 'm2 en oficinas', lado: 'derecha' },
+    { valor: '+8.000', label: 'm2 en edificios', lado: 'izquierda' },
+    { valor: '+4.000', label: 'm2 construidos', lado: 'derecha' },
+] as const
+
+function parseValor(valor: string): { prefix: string; num: number } {
+    const hasPlus = valor.startsWith('+')
+    const raw = hasPlus ? valor.slice(1) : valor
+    const num = parseInt(raw.replace(/\./g, ''), 10)
+    return { prefix: hasPlus ? '+' : '', num }
+}
+
+function StatRow({ stat, index }: { stat: (typeof stats)[number]; index: number }) {
+    const ref = useRef(null)
+    const inView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-40px 0px' })
+    const isRight = stat.lado === 'derecha'
+
+    const { prefix, num } = parseValor(stat.valor)
+    const [display, setDisplay] = useState(0)
+
+    useEffect(() => {
+        if (!inView) return
+        const controls = animate(0, num, {
+            duration: 2,
+            ease: expo,
+            onUpdate: (v) => setDisplay(Math.round(v)),
+        })
+        return () => controls.stop()
+    }, [inView, num])
+
+    const formatted = prefix + display.toLocaleString('es-AR')
+
+    return (
+        <motion.div
+            ref={ref}
+            className={`flex py-[48px] border-b border-[#D0D0D0] ${isRight ? 'justify-end' : 'justify-start'}`}
+            variants={{
+                hidden: { opacity: 0, x: isRight ? 40 : -40 },
+                visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: expo, delay: index * 0.05 } },
+            }}
+            initial="hidden"
+            animate={inView ? 'visible' : 'hidden'}
+        >
+            <div className={`flex flex-col ${isRight ? 'items-end' : 'items-start'}`} style={{ width: '420px' }}>
+                <p className="text-[#0F0F0F] m-0" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '64px', lineHeight: '1' }}>
+                    {formatted}
+                </p>
+                <p className="text-[#0F0F0F] m-0 mt-[8px]" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '36px', lineHeight: '1.2' }}>
+                    {stat.label}
+                </p>
+            </div>
+        </motion.div>
+    )
+}
+
 export default function NosotrosNumeros() {
     return (
-        <section className="relative w-full flex flex-col items-center bg-white mb-[148px]">
+        <section className="w-full bg-white pt-[60px] pb-[80px]">
+            <div className="max-w-[1440px] mx-auto px-[80px]">
 
-            {/* Sección Números (Fondo blanco, Flex Column con gap 77px) */}
-            <div
-                className="w-full flex flex-col"
-                style={{
-                    paddingTop: '119px',
-                    paddingBottom: '34px',
-                    gap: '77px'
-                }}
-            >
-
-                {/* Título: Lo que hicimos hasta ahora */}
-                <div className="relative w-full h-[46px]">
-                    <h2
-                        className="absolute left-[44px] top-[0px] m-0 text-black"
-                        style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 400, fontSize: '36px', lineHeight: '46px' }}
-                    >
+                <FadeUp className="flex flex-row items-center justify-end gap-[12px] mb-[80px]">
+                    <span className="text-[#0F0F0F]" style={{ fontFamily: 'var(--font-space-grotesk)', fontSize: '22px' }}>—</span>
+                    <p className="text-[#0F0F0F] m-0" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 400, fontSize: '36px', lineHeight: '1.2' }}>
                         Lo que hicimos hasta ahora
-                    </h2>
-                    <div className="absolute left-[0px] top-[23px] w-[30px] border-t border-black"></div>
-                </div>
+                    </p>
+                </FadeUp>
 
-                {/* Fila 1: +100 Unidades */}
-                <div className="relative w-full h-[177px]">
-                    <div className="absolute left-[168px] top-[0px] w-[481px] h-[177px]">
-                        <div className="absolute left-[0px] top-[0px] text-black" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '64px', lineHeight: '82px' }}>+100</div>
-                        <div className="absolute left-[0px] top-[77px] text-black" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '36px', lineHeight: '46px' }}>Unidades entregadas</div>
-                        <div className="absolute left-[0px] top-[177px] w-[345px] border-t border-black"></div>
-                    </div>
-                </div>
-
-                {/* Fila 2: +4.000 Oficinas */}
-                <div className="relative w-full h-[178px]">
-                    <div className="absolute left-[887px] top-[0px] w-[400px] h-[178px]">
-                        <div className="absolute left-[96px] top-[0px] text-black" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '64px', lineHeight: '82px' }}>+4.000</div>
-                        <div className="absolute left-[96px] top-[82px] text-black" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '36px', lineHeight: '46px' }}>m2 en oficinas</div>
-                        <div className="absolute left-[0px] top-[177px] w-[345px] border-t border-black"></div>
-                    </div>
-                </div>
-
-                {/* Fila 3: +8.000 Edificios */}
-                <div className="relative w-full h-[177px]">
-                    {/* Fila 3 tiene un detalle: todo el contenido absoluto comparte X pero el Line y Texto estan relativos a left 168 en el parent pero el offset local en el componente Figma indica absolute referenciando la pagina, asumo top 0 left 168 para el frame contenedor para consistencia */}
-                    <div className="absolute left-[168px] top-[0px] w-[400px] h-[177px]">
-                        <div className="absolute left-[0px] top-[0px] text-black" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '64px', lineHeight: '82px' }}>+8.000</div>
-                        <div className="absolute left-[0px] top-[77px] text-black" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '36px', lineHeight: '46px' }}>m2 en edificios</div>
-                        <div className="absolute left-[0px] top-[176px] w-[345px] border-t border-black"></div>
-                    </div>
-                </div>
-
-                {/* Fila 4: +4.000 Construidos */}
-                <div className="relative w-full h-[178px]">
-                    {/* Contenedor relativo a 887 del diseño original (donde arranca la linea, el texto está un poco más a la derecha) */}
-                    <div className="absolute left-[887px] top-[0px] w-[400px] h-[178px]">
-                        {/* offset respecto a 887: +4000 left 1019 -> 1019-887 = 132 */}
-                        <div className="absolute left-[132px] top-[0px] text-black whitespace-nowrap" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '64px', lineHeight: '82px' }}>+4.000</div>
-                        {/* m2 construidos left 960 -> 960-887 = 73 */}
-                        <div className="absolute left-[73px] top-[74px] text-black whitespace-nowrap" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '36px', lineHeight: '46px' }}>m2 construidos</div>
-                        <div className="absolute left-[0px] top-[177px] w-[345px] border-t border-black"></div>
-                    </div>
+                <div className="flex flex-col gap-0">
+                    {stats.map((stat, i) => (
+                        <StatRow key={stat.label} stat={stat} index={i} />
+                    ))}
                 </div>
 
             </div>
-
-            {/* Pie Nosotros (Contenedor-pienosotros) solapado al final / offset top manual */}
-            <div
-                className="w-[1280px] h-[403px] bg-white mt-[100px] mb-[0px] overflow-hidden relative shadow-sm"
-                style={{ left: '0px' /* Para auto-centrado si flex column o absolute left 80px */ }}
-            >
-                <div className="absolute left-[0px] top-[-157px] w-[1282px] h-[721px] bg-[#D9D9D9] flex items-center justify-center">
-                    <span className="text-gray-500 font-sans text-xl">Imagen Pie Nosotros (1282x721)</span>
-                </div>
-            </div>
-
         </section>
-    );
+    )
 }

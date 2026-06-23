@@ -1,32 +1,39 @@
+'use client'
+import Image from 'next/image'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef } from 'react'
+
 export default function ProyectosHero() {
+    const ref = useRef<HTMLElement>(null)
+    const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+    const y = useTransform(scrollYProgress, [0, 1], ['0%', '-18%'])
+
     return (
-        <section className="relative w-full h-[860px] flex justify-center items-center overflow-hidden bg-white">
-            {/* Imagen de fondo / Placeholder: TORRE RESIDENCIAL INCAS 16 */}
-            <div
-                className="absolute left-0 top-[-160px] w-full h-[998px] bg-[#D9D9D9]"
-            /* top -160px y height 998px vienen del Figma para el "Render 11-v1 6" dentro del frame de 860px */
-            >
-                <div className="w-full h-full flex justify-center items-center bg-black/20">
-                    <span className="text-white font-sans text-xl">Imagen de fondo (Render 11-v1)</span>
-                </div>
+        <section ref={ref} className="relative w-full h-[860px] flex justify-center items-center overflow-hidden bg-white">
+            <div className="absolute left-0 w-full overflow-hidden" style={{ top: '-160px', height: '998px' }}>
+                <motion.div className="w-full h-full" style={{ y }}>
+                    <Image
+                        src="/images/proyectos/hero-bg.jpg"
+                        alt="Nuestros Proyectos"
+                        fill
+                        className="object-cover"
+                        priority
+                        sizes="100vw"
+                    />
+                </motion.div>
             </div>
 
-            {/* Título Central */}
             <div className="absolute top-[327px] w-full flex justify-center">
-                <h1
-                    className="text-center text-[#FAFAFA]"
-                    style={{
-                        fontFamily: 'var(--font-bellefair)',
-                        fontWeight: 400,
-                        fontSize: '96px',
-                        lineHeight: '110px',
-                        width: '717px',
-                        height: '206px'
-                    }}
+                <motion.h1
+                    className="text-center text-[#FAFAFA] font-serif font-normal m-0"
+                    style={{ fontSize: '96px', lineHeight: '110px', width: '717px' }}
+                    initial={{ opacity: 0, y: 32 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
                 >
                     NUESTROS PROYECTOS
-                </h1>
+                </motion.h1>
             </div>
         </section>
-    );
+    )
 }

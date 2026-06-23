@@ -3,6 +3,7 @@ import { Space_Grotesk, Bellefair } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -32,8 +33,8 @@ export default function RootLayout({
         className={`${spaceGrotesk.variable} ${bellefair.variable} antialiased font-sans min-h-screen flex flex-col`}
       >
         <Header />
-        <main className="flex-grow w-full relative">
-          {children}
+        <main className="flex-grow w-full relative overflow-x-hidden">
+          <PageTransition>{children}</PageTransition>
         </main>
         <Footer />
       </body>

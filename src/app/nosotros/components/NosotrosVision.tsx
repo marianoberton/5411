@@ -1,56 +1,78 @@
+'use client'
+import Image from 'next/image'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
+
+const expo: [number, number, number, number] = [0.16, 1, 0.3, 1]
+
 export default function NosotrosVision() {
+    const ref = useRef(null)
+    const inView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-80px 0px' })
+    const anim = inView ? 'visible' : 'hidden'
+
     return (
-        <section className="relative w-full h-[658px] bg-white mb-[29px] mt-[160px]">
-            {/* Margen top de 160px respecto al hero (1003 - 843 = 160) */}
+        <section className="w-full bg-white py-[80px] overflow-hidden">
+            <div ref={ref} className="max-w-[1440px] mx-auto px-[80px] flex flex-row gap-[60px] items-start justify-between">
 
-            {/* Texto-proyectos Contenedor */}
-            <div className="absolute left-[244px] top-[231px] w-[411.49px] h-[184px]">
-                {/* Línea Azul */}
-                <div
-                    className="absolute left-[0px] top-[10px] bg-[#0434B2]"
-                    style={{ width: '4.57px', height: '30.49px' }}
-                ></div>
-
-                {/* Párrafo */}
-                <p
-                    className="absolute left-[44.49px] top-[0px] text-black m-0"
-                    style={{
-                        fontFamily: 'var(--font-space-grotesk)',
-                        fontWeight: 300,
-                        fontSize: '18.29px',
-                        lineHeight: '23px',
-                        width: '367px',
-                        height: '184px'
+                {/* Izquierda — texto */}
+                <motion.div
+                    className="flex flex-row items-start gap-[16px] max-w-[420px] pt-[40px]"
+                    variants={{
+                        hidden: { opacity: 0, x: -40 },
+                        visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: expo, delay: 0.1 } },
                     }}
+                    initial="hidden"
+                    animate={anim}
                 >
-                    Nos especializamos en brindar soluciones integrales, asegurando calidad, eficiencia y compromiso en cada proyecto. Construimos más que obras: forjamos relaciones de confianza con nuestros clientes, acompañándolos en cada etapa y resolviendo cada detalle con precisión y transparencia.
-                </p>
-            </div>
+                    <div className="flex-shrink-0 mt-[4px]">
+                        <svg width="5" height="30" viewBox="0 0 5 30" fill="none">
+                            <rect width="5" height="30" fill="#0F0F0F" />
+                        </svg>
+                    </div>
+                    <div className="flex flex-col gap-[20px]">
+                        <p
+                            className="text-[#0F0F0F] m-0"
+                            style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '18px', lineHeight: '28px' }}
+                        >
+                            Nos especializamos en brindar soluciones integrales, asegurando calidad, eficiencia y compromiso en cada proyecto.
+                        </p>
+                        <p
+                            className="text-[#0F0F0F] m-0"
+                            style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '18px', lineHeight: '28px' }}
+                        >
+                            Construimos más que obras: forjamos relaciones de confianza con nuestros clientes, acompañándolos en cada etapa y resolviendo cada detalle con precisión y transparencia.
+                        </p>
+                    </div>
+                </motion.div>
 
-            {/* Team 1 (Mauro) Image - Top 1074 absolute -> 1074 - 1003 = 71px relativos a la seccion */}
-            <div className="absolute left-[790px] top-[71px] w-[414px] h-[504px] bg-white overflow-hidden shadow-sm">
-                <div className="absolute left-[-7px] top-[-48px] w-[421px] h-[632px] bg-[#D9D9D9] flex items-center justify-center">
-                    <span className="text-gray-500 font-sans text-lg">Imagen Mauro Carlos Bianchi (421x632)</span>
-                </div>
-            </div>
-
-            {/* Etiqueta Mauro Carlos Bianchi */}
-            <div className="absolute left-[902px] top-[589px] flex items-center gap-[49px]">
-                <h3
-                    className="text-black inline-block whitespace-nowrap m-0"
-                    style={{
-                        fontFamily: 'var(--font-space-grotesk)',
-                        fontWeight: 400,
-                        fontSize: '16px',
-                        lineHeight: '20px'
+                {/* Derecha — foto + nombre */}
+                <motion.div
+                    className="flex flex-col items-center gap-[16px]"
+                    style={{ flexShrink: 0 }}
+                    variants={{
+                        hidden: { opacity: 0, x: 40, scale: 1.06 },
+                        visible: { opacity: 1, x: 0, scale: 1, transition: { duration: 1.1, ease: expo, delay: 0.25 } },
                     }}
+                    initial="hidden"
+                    animate={anim}
                 >
-                    Mauro Carlos Bianchi
-                </h3>
-                {/* En Figma hay un Frame 7 con gap 49px pero sin mas contenido obvio mas que el texto, o quiza el cargo. 
-            Aca lo dejamos tal cual o añadimos linea si la hay. Figma no indica cargo especifico aca como los otros. */}
-            </div>
+                    <div className="relative w-[414px] h-[504px] overflow-hidden">
+                        <Image
+                            src="/images/otros/pexels-lubomir-satko.jpg"
+                            alt="Mauro Carlos Bianchi"
+                            fill
+                            className="object-cover object-top"
+                        />
+                    </div>
+                    <p
+                        className="text-[#0F0F0F] text-center m-0"
+                        style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 400, fontSize: '16px', lineHeight: '22px' }}
+                    >
+                        Mauro Carlos Bianchi
+                    </p>
+                </motion.div>
 
+            </div>
         </section>
-    );
+    )
 }

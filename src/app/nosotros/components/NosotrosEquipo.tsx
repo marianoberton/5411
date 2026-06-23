@@ -1,73 +1,88 @@
+'use client'
+import Image from 'next/image'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
+
+const expo: [number, number, number, number] = [0.16, 1, 0.3, 1]
+
+const equipo = [
+    {
+        nombre: 'Alejandro Saldívar',
+        cargo: 'Asesor Real Estate',
+        foto: '/images/otros/pexels-babix.jpg',
+        objectPosition: 'top center',
+    },
+    {
+        nombre: 'Carolina Bianchi',
+        cargo: 'Operaciones',
+        foto: '/images/otros/pexels-mikhail-nilov.jpg',
+        objectPosition: 'top center',
+    },
+]
+
+const cardDelays = [0.2, 0.35]
+
 export default function NosotrosEquipo() {
+    const ref = useRef(null)
+    const inView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-80px 0px' })
+    const anim = inView ? 'visible' : 'hidden'
+
     return (
-        <section className="relative w-full h-[773px] bg-white mb-[29px]">
-            {/* Esta seccion "Conocé nuestro equipo" iba top 1690. Visión era h 658 + top 1003 = 1661. Margen superior = 29px (usado como marginBottom en Vision). */}
+        <section className="w-full bg-white pt-[40px] pb-[80px]">
+            <div ref={ref} className="max-w-[1440px] mx-auto px-[80px]">
 
-            {/* Título: conocé nuestro equipo */}
-            <div className="absolute left-[25px] top-[67px] w-[512px] h-[53px]">
-                <h2
-                    className="absolute left-[60px] top-[4px] text-black m-0"
-                    style={{
-                        fontFamily: 'var(--font-space-grotesk)',
-                        fontWeight: 400,
-                        fontSize: '36px',
-                        lineHeight: '46px',
-                        textTransform: 'capitalize'
+                <motion.div
+                    className="flex flex-row items-center gap-[16px] mb-[48px]"
+                    variants={{
+                        hidden: { opacity: 0, y: 28 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: expo, delay: 0 } },
                     }}
+                    initial="hidden"
+                    animate={anim}
                 >
-                    conocé nuestro equipo
-                </h2>
-                {/* Líneas adornando el título */}
-                <div className="absolute left-[485px] top-[32px] w-[30px] border-t border-black"></div>
-                <div className="absolute left-[492px] top-[27px] w-[30px] border-t border-black"></div>
-            </div>
+                    <h2
+                        className="text-[#0F0F0F] m-0"
+                        style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 400, fontSize: '36px', lineHeight: '1.2' }}
+                    >
+                        Conocé nuestro equipo
+                    </h2>
+                    <span className="text-[#0F0F0F]" style={{ fontFamily: 'var(--font-space-grotesk)', fontSize: '24px' }}>—</span>
+                </motion.div>
 
-            {/* Team 2 (Alejandro) - Image Container */}
-            <div className="absolute left-[342px] top-[199px] w-[360px] h-[436px] bg-white overflow-hidden shadow-sm">
-                <div className="absolute left-[0px] top-[0px] w-[375px] h-[562px] bg-[#D9D9D9] flex items-center justify-center">
-                    <span className="text-gray-500 font-sans text-base">Imagen Alejandro (375x562)</span>
+                <div className="flex flex-row gap-[80px]">
+                    {equipo.map((persona, i) => (
+                        <motion.div
+                            key={persona.nombre}
+                            className="flex flex-col gap-[12px]"
+                            variants={{
+                                hidden: { opacity: 0, y: 40 },
+                                visible: { opacity: 1, y: 0, transition: { duration: 0.85, ease: expo, delay: cardDelays[i] } },
+                            }}
+                            initial="hidden"
+                            animate={anim}
+                        >
+                            <div className="relative w-[360px] h-[436px] overflow-hidden bg-[#D9D9D9]">
+                                <Image
+                                    src={persona.foto}
+                                    alt={persona.nombre}
+                                    fill
+                                    className="object-cover"
+                                    style={{ objectPosition: persona.objectPosition }}
+                                />
+                            </div>
+                            <div className="text-center">
+                                <p className="text-[#0F0F0F] m-0" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 400, fontSize: '16px', lineHeight: '22px' }}>
+                                    {persona.nombre}
+                                </p>
+                                <p className="text-[#0F0F0F] m-0 mt-[2px]" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '14px', lineHeight: '20px' }}>
+                                    {persona.cargo}
+                                </p>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
-            </div>
 
-            {/* Team 2 (Alejandro) - Label Box */}
-            <div className="absolute left-[422px] top-[647px] w-[200px] h-[55px] bg-white drop-shadow-md">
-                <h3
-                    className="absolute left-[30px] top-[8px] text-black text-center w-[138px]"
-                    style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 400, fontSize: '16px', lineHeight: '20px' }}
-                >
-                    Alejandro Saldivar
-                </h3>
-                <p
-                    className="absolute left-[36px] top-[28px] text-black text-center w-[126px]"
-                    style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '14px', lineHeight: '18px' }}
-                >
-                    Asesor Real Estate
-                </p>
             </div>
-
-            {/* Team 3 (Carolina) - Image Container */}
-            <div className="absolute left-[756px] top-[199px] w-[360px] h-[436px] bg-white overflow-hidden shadow-sm">
-                <div className="absolute left-[0px] top-[-50px] w-[360px] h-[540px] bg-[#D9D9D9] flex items-center justify-center">
-                    <span className="text-gray-500 font-sans text-base">Imagen Carolina (360x540)</span>
-                </div>
-            </div>
-
-            {/* Team 3 (Carolina) - Label Box */}
-            <div className="absolute left-[836px] top-[651px] w-[200px] h-[55px] bg-white drop-shadow-md">
-                <h3
-                    className="absolute left-[38px] top-[8px] text-black text-center w-[123px]"
-                    style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 400, fontSize: '16px', lineHeight: '20px' }}
-                >
-                    Carolina Bianchi
-                </h3>
-                <p
-                    className="absolute left-[57px] top-[28px] text-black text-center w-[85px]"
-                    style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '14px', lineHeight: '18px' }}
-                >
-                    Operaciones
-                </p>
-            </div>
-
         </section>
-    );
+    )
 }

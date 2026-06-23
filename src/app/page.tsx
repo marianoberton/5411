@@ -1,17 +1,17 @@
-import Hero from "@/components/Hero";
-import Nosotros from "@/components/Nosotros";
-import Proyectos from "@/components/Proyectos";
-import NuestraPropuesta from "@/components/NuestraPropuesta";
-import Stats from "@/components/Stats";
+import Hero from '@/components/Hero'
+import NosotrosCollage from '@/components/home/NosotrosCollage'
+import ProyectosPreview from '@/components/home/ProyectosPreview'
+import NuestraPropuesta from '@/components/home/NuestraPropuesta'
+import Stats from '@/components/home/Stats'
 
 export default function Home() {
-  return (
-    <div className="w-full flex flex-col items-center bg-[#FAFAFA]">
-      <Hero />
-      <Nosotros />
-      <Proyectos />
-      <NuestraPropuesta />
-      <Stats />
-    </div>
-  );
+    return (
+        <div className="w-full flex flex-col items-center bg-[#FAFAFA]">
+            <Hero />
+            <NosotrosCollage />
+            <ProyectosPreview />
+            <NuestraPropuesta />
+            <Stats />
+        </div>
+    )
 }
