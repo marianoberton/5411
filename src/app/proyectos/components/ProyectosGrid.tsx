@@ -9,7 +9,7 @@ const expo: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 function AnimatedBlock({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
     const ref = useRef(null)
-    const inView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-80px 0px' })
+    const inView = useInView(ref, { once: true, margin: '-80px 0px' })
     return (
         <motion.div
             ref={ref}
@@ -24,7 +24,7 @@ function AnimatedBlock({ children, delay = 0 }: { children: React.ReactNode; del
 
 function KenBurnsImage({ src, alt, sizes, priority }: { src: string; alt: string; sizes: string; priority?: boolean }) {
     const ref = useRef(null)
-    const inView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-80px 0px' })
+    const inView = useInView(ref, { once: true, margin: '-80px 0px' })
     return (
         <motion.div
             ref={ref}
@@ -47,9 +47,9 @@ function KenBurnsImage({ src, alt, sizes, priority }: { src: string; alt: string
 
 function CardInfo({ proyecto }: { proyecto: Proyecto }) {
     return (
-        <div className="flex flex-row justify-between items-center pt-[12px] pb-[48px]">
+        <div className="flex flex-row justify-between items-center gap-4 pt-[12px]">
             <span
-                className="uppercase text-[#0F0F0F]"
+                className="uppercase text-[#0F0F0F] transition-opacity group-hover:opacity-60"
                 style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 700, fontSize: '14px', lineHeight: '18px' }}
             >
                 {proyecto.nombre}
@@ -68,7 +68,7 @@ export default function ProyectosGrid({ proyectos }: { proyectos: Proyecto[] }) 
     const rendered = new Set<string>()
 
     return (
-        <div className="w-full px-[80px]">
+        <div className="w-full px-6 sm:px-10 lg:px-[80px] flex flex-col gap-[64px] lg:gap-[80px]">
             {proyectos.map((proyecto) => {
                 if (rendered.has(proyecto.slug)) return null
 
@@ -79,11 +79,11 @@ export default function ProyectosGrid({ proyectos }: { proyectos: Proyecto[] }) 
                     if (arias3023) rendered.add('arias-3023')
 
                     return (
-                        <div key="arias-pair" className="flex flex-row gap-[24px]">
+                        <div key="arias-pair" className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
                             <AnimatedBlock delay={0}>
                                 <Link href="/proyectos/arias-3020" className="flex flex-col group">
                                     <motion.div
-                                        className="relative w-full h-[516px] overflow-hidden"
+                                        className="relative w-full h-[300px] sm:h-[420px] lg:h-[516px] overflow-hidden"
                                         whileHover={{ scale: 1.02 }}
                                         transition={{ duration: 0.5, ease: expo }}
                                     >
@@ -126,7 +126,7 @@ export default function ProyectosGrid({ proyectos }: { proyectos: Proyecto[] }) 
                         <AnimatedBlock key={proyecto.slug}>
                             <Link href={`/proyectos/${proyecto.slug}`} className="block group">
                                 <motion.div
-                                    className="relative w-full h-[886px] overflow-hidden"
+                                    className="relative w-full h-[400px] sm:h-[600px] lg:h-[886px] overflow-hidden"
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.5, ease: expo }}
                                 >
@@ -147,10 +147,9 @@ export default function ProyectosGrid({ proyectos }: { proyectos: Proyecto[] }) 
                 return (
                     <AnimatedBlock key={proyecto.slug}>
                         <div className="flex justify-center">
-                            <Link href={`/proyectos/${proyecto.slug}`} className="flex flex-col group" style={{ width: '53%' }}>
+                            <Link href={`/proyectos/${proyecto.slug}`} className="flex flex-col group w-full md:w-[53%]">
                                 <motion.div
-                                    className="relative w-full overflow-hidden"
-                                    style={{ height: '658px' }}
+                                    className="relative w-full overflow-hidden h-[360px] sm:h-[500px] lg:h-[658px]"
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.5, ease: expo }}
                                 >

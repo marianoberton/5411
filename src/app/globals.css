@@ -3,17 +3,145 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* ── Tokens de marca 5411 Brique ───────────────────────── */
+  --ink: #0f0f0f;          /* negro único de texto / UI */
+  --paper: #fafafa;        /* fondo de página */
+  --surface: #ECEAE3;      /* superficie cálida (footer, heros) */
+  --cream: #f9f7f2;        /* inputs / botones claros */
+  --line: #d0d0d0;         /* divisores */
+  --muted: #888888;        /* texto secundario */
+
+  /* ── Acentos de marca (guiño en logo: intro + transiciones) ──
+     Azul "blueprint" (planos) + amarillo "obra/ámbar" (construcción).
+     Para recolorar todo el guiño de marca, cambiar SÓLO estas dos líneas. */
+  --brand-blue: #1f4cff;
+  --brand-yellow: #f5b301;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-cream: var(--cream);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-yellow: var(--brand-yellow);
   --font-sans: var(--font-space-grotesk);
   --font-serif: var(--font-bellefair);
+
+  /* Breakpoint extra para monitores grandes (27"–32"+, ≥1920px). */
+  --breakpoint-3xl: 1920px;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   background: var(--background);
   color: var(--foreground);
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Microinteracciones de marca ─────────────────────────────
+   Curvas compartidas con framer-motion (expo-out) para que hover y
+   coreografía de entrada respiren igual. */
+
+/* Subrayado del nav: entra desde la izquierda, sale hacia la derecha. */
+.link-lift {
+  position: relative;
+}
+.link-lift::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-lift:hover::after,
+.link-lift:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.link-lift[data-active='true']::after {
+  transform: scaleX(1);
+}
+
+/* Botones: un relleno barre desde abajo e invierte el contraste.
+   Usar con --sweep-bg (color que sube) y --sweep-ink (color de texto al
+   completarse). El contenido debe ir envuelto en <span>. */
+.btn-sweep {
+  position: relative;
+  overflow: hidden;
+  transition: color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-sweep::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: var(--sweep-bg, var(--surface));
+  transform: translateY(103%);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-sweep:hover,
+.btn-sweep:focus-visible {
+  color: var(--sweep-ink, var(--ink));
+}
+.btn-sweep:hover::before,
+.btn-sweep:focus-visible::before {
+  transform: translateY(0);
+}
+.btn-sweep > span {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-lift::after,
+  .btn-sweep,
+  .btn-sweep::before {
+    transition: none;
+  }
+}
+
+/* Carruseles swipe sin barra de desplazamiento visible. */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Foco accesible y consistente en todo el sitio (solo teclado). */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Campos de línea (formulario de contacto): el foco lo comunica el borde
+   inferior que se entinta — el outline global dibujaría una caja encima. */
+input.peer:focus-visible,
+textarea.peer:focus-visible {
+  outline: none;
+}
+
+/* Selección de texto con la paleta de marca. */
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }

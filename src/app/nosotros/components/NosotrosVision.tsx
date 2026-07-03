@@ -7,16 +7,16 @@ const expo: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 export default function NosotrosVision() {
     const ref = useRef(null)
-    const inView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-80px 0px' })
+    const inView = useInView(ref, { once: true, margin: '-80px 0px' })
     const anim = inView ? 'visible' : 'hidden'
 
     return (
-        <section className="w-full bg-white py-[80px] overflow-hidden">
-            <div ref={ref} className="max-w-[1440px] mx-auto px-[80px] flex flex-row gap-[60px] items-start justify-between">
+        <section className="w-full bg-white py-[56px] lg:py-[80px] overflow-hidden">
+            <div ref={ref} className="max-w-[1440px] 2xl:max-w-[1660px] 3xl:max-w-[1880px] mx-auto px-6 sm:px-10 lg:px-[80px] flex flex-col-reverse lg:flex-row gap-[40px] lg:gap-[60px] items-start lg:justify-between">
 
                 {/* Izquierda — texto */}
                 <motion.div
-                    className="flex flex-row items-start gap-[16px] max-w-[420px] pt-[40px]"
+                    className="flex flex-row items-start gap-[16px] w-full max-w-full lg:max-w-[420px] lg:pt-[40px]"
                     variants={{
                         hidden: { opacity: 0, x: -40 },
                         visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: expo, delay: 0.1 } },
@@ -47,8 +47,7 @@ export default function NosotrosVision() {
 
                 {/* Derecha — foto + nombre */}
                 <motion.div
-                    className="flex flex-col items-center gap-[16px]"
-                    style={{ flexShrink: 0 }}
+                    className="flex flex-col items-center gap-[16px] w-full lg:w-auto lg:flex-shrink-0"
                     variants={{
                         hidden: { opacity: 0, x: 40, scale: 1.06 },
                         visible: { opacity: 1, x: 0, scale: 1, transition: { duration: 1.1, ease: expo, delay: 0.25 } },
@@ -56,11 +55,12 @@ export default function NosotrosVision() {
                     initial="hidden"
                     animate={anim}
                 >
-                    <div className="relative w-[414px] h-[504px] overflow-hidden">
+                    <div className="relative w-full max-w-[414px] aspect-[414/504] lg:w-[414px] lg:h-[504px] overflow-hidden">
                         <Image
-                            src="/images/otros/pexels-lubomir-satko.jpg"
+                            src="/images/equipo/mauro-bianchi.jpg"
                             alt="Mauro Carlos Bianchi"
                             fill
+                            sizes="(max-width: 1024px) 90vw, 414px"
                             className="object-cover object-top"
                         />
                     </div>

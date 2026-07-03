@@ -9,7 +9,7 @@ export default function NosotrosPage() {
         <div className="w-full flex flex-col bg-white">
             <NosotrosHero />
             <div className="w-full flex flex-col items-center bg-white">
-                <main className="w-full max-w-[1440px] relative flex flex-col bg-white">
+                <main className="w-full max-w-[1440px] 2xl:max-w-[1660px] 3xl:max-w-[1880px] relative flex flex-col bg-white">
                     <NosotrosVision />
                     <NosotrosEquipo />
                     <NosotrosNumeros />

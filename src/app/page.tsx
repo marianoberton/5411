@@ -1,6 +1,7 @@
 import Hero from '@/components/Hero'
 import NosotrosCollage from '@/components/home/NosotrosCollage'
 import ProyectosPreview from '@/components/home/ProyectosPreview'
+import ProyectosShowcase from '@/components/home/ProyectosShowcase'
 import NuestraPropuesta from '@/components/home/NuestraPropuesta'
 import Stats from '@/components/home/Stats'
 
@@ -10,6 +11,7 @@ export default function Home() {
             <Hero />
             <NosotrosCollage />
             <ProyectosPreview />
+            <ProyectosShowcase />
             <NuestraPropuesta />
             <Stats />
         </div>

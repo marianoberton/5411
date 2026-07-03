@@ -21,7 +21,7 @@ function parseValor(valor: string): { prefix: string; num: number } {
 
 function StatRow({ stat, index }: { stat: (typeof stats)[number]; index: number }) {
     const ref = useRef(null)
-    const inView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-40px 0px' })
+    const inView = useInView(ref, { once: true, margin: '-40px 0px' })
     const isRight = stat.lado === 'derecha'
 
     const { prefix, num } = parseValor(stat.valor)
@@ -42,7 +42,7 @@ function StatRow({ stat, index }: { stat: (typeof stats)[number]; index: number 
     return (
         <motion.div
             ref={ref}
-            className={`flex py-[48px] border-b border-[#D0D0D0] ${isRight ? 'justify-end' : 'justify-start'}`}
+            className={`flex py-[32px] sm:py-[48px] border-b border-[#D0D0D0] ${isRight ? 'justify-end' : 'justify-start'}`}
             variants={{
                 hidden: { opacity: 0, x: isRight ? 40 : -40 },
                 visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: expo, delay: index * 0.05 } },
@@ -50,11 +50,11 @@ function StatRow({ stat, index }: { stat: (typeof stats)[number]; index: number 
             initial="hidden"
             animate={inView ? 'visible' : 'hidden'}
         >
-            <div className={`flex flex-col ${isRight ? 'items-end' : 'items-start'}`} style={{ width: '420px' }}>
-                <p className="text-[#0F0F0F] m-0" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '64px', lineHeight: '1' }}>
+            <div className={`flex flex-col w-full max-w-full sm:w-[420px] ${isRight ? 'items-end' : 'items-start'}`}>
+                <p className="text-[#0F0F0F] m-0 text-[clamp(44px,9vw,64px)]" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, lineHeight: '1' }}>
                     {formatted}
                 </p>
-                <p className="text-[#0F0F0F] m-0 mt-[8px]" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, fontSize: '36px', lineHeight: '1.2' }}>
+                <p className="text-[#0F0F0F] m-0 mt-[8px] text-[clamp(22px,5vw,36px)]" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, lineHeight: '1.2' }}>
                     {stat.label}
                 </p>
             </div>
@@ -64,12 +64,12 @@ function StatRow({ stat, index }: { stat: (typeof stats)[number]; index: number 
 
 export default function NosotrosNumeros() {
     return (
-        <section className="w-full bg-white pt-[60px] pb-[80px]">
-            <div className="max-w-[1440px] mx-auto px-[80px]">
+        <section className="w-full bg-white pt-[48px] lg:pt-[60px] pb-[64px] lg:pb-[80px]">
+            <div className="max-w-[1440px] 2xl:max-w-[1660px] 3xl:max-w-[1880px] mx-auto px-6 sm:px-10 lg:px-[80px]">
 
-                <FadeUp className="flex flex-row items-center justify-end gap-[12px] mb-[80px]">
+                <FadeUp className="flex flex-row items-center justify-end gap-[12px] mb-[48px] lg:mb-[80px]">
                     <span className="text-[#0F0F0F]" style={{ fontFamily: 'var(--font-space-grotesk)', fontSize: '22px' }}>—</span>
-                    <p className="text-[#0F0F0F] m-0" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 400, fontSize: '36px', lineHeight: '1.2' }}>
+                    <p className="text-[#0F0F0F] m-0 text-[clamp(24px,5vw,36px)]" style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 400, lineHeight: '1.2' }}>
                         Lo que hicimos hasta ahora
                     </p>
                 </FadeUp>
