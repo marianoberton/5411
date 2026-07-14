@@ -86,8 +86,8 @@ export default function ProyectosPreview() {
                             >
                                 <motion.div className="relative w-full h-full" style={{ scale: imageScale }}>
                                     <Image
-                                        src="/images/otros/dsc05602-hdr-edit.jpg"
-                                        alt="Proyecto Los Incas"
+                                        src="/images/proyectos_home.png"
+                                        alt="Proyectos 5411 Brique"
                                         fill
                                         className="object-cover"
                                         sizes="678px"
@@ -117,7 +117,7 @@ export default function ProyectosPreview() {
                         viewport={{ once: true, margin: '-60px 0px' }}
                         transition={{ duration: 1.5, ease: expo }}
                     >
-                        <Image src="/images/otros/dsc05602-hdr-edit.jpg" alt="Proyecto Los Incas" fill className="object-cover" sizes="100vw" />
+                        <Image src="/images/proyectos_home.png" alt="Proyectos 5411 Brique" fill className="object-cover" sizes="100vw" />
                     </motion.div>
                 </motion.div>
                 <motion.div

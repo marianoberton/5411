@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { Proyecto } from '@/data/proyectos'
 import { FadeUp, ScaleIn, SlideIn, Stagger, StaggerItem } from '@/components/ui/Motion'
-import { MaskLines, SplitText } from '@/components/ui/Reveal'
+import { SplitText } from '@/components/ui/Reveal'
 
 // Galería horizontal pineada (desktop): la página se clava y el scroll
 // vertical arrastra el carrusel lateralmente — sin barra de desplazamiento.
@@ -188,27 +188,6 @@ export default function ProyectoContent({ proyecto, otrosProyectos }: { proyecto
                             </FadeUp>
                         </>
                     )}
-
-                    {/* ─── CTA ───────────────────────────────────────────────── */}
-                    <FadeUp className="w-full px-6 py-[72px] lg:py-[100px] flex flex-col items-center gap-[32px] lg:gap-[40px] text-center">
-                        <div className="flex flex-row items-center gap-[16px]">
-                            <span className="block w-[40px] h-[6px] bg-[#0F0F0F]" />
-                            <MaskLines
-                                as="p"
-                                lines={['Construimos tus sueños']}
-                                duration={1.0}
-                                className="text-[#0F0F0F] m-0 font-serif font-normal leading-none text-[clamp(40px,5vw,64px)] tracking-[-0.32px]"
-                            />
-                        </div>
-                        <Link
-                            href="/contacto"
-                            className="btn-sweep group inline-flex items-center gap-[10px] bg-[#0F0F0F] text-[#F5F5F5] px-[24px] py-[12px] font-sans font-light text-[19px] rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F0F0F]"
-                            style={{ '--sweep-bg': '#FAFAFA', '--sweep-ink': '#0F0F0F' } as React.CSSProperties}
-                        >
-                            <span>Hablá con nosotros</span>
-                            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-                        </Link>
-                    </FadeUp>
 
                     {/* ─── MÁS PROYECTOS ─────────────────────────────────────── */}
                     <section className="w-full pb-[80px]">

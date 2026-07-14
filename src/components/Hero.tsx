@@ -50,7 +50,7 @@ export default function Hero() {
 
             <div className="absolute inset-0 flex justify-center">
                 <motion.div
-                    className="w-full max-w-[1440px] 2xl:max-w-[1660px] 3xl:max-w-[1880px] px-6 sm:px-10 lg:px-[56px] 3xl:px-[80px] flex flex-col items-start justify-start pt-[26vh] lg:pt-[24vh]"
+                    className="w-full max-w-[1440px] 2xl:max-w-[1660px] 3xl:max-w-[1880px] px-6 sm:px-10 lg:px-[56px] 3xl:px-[80px] flex flex-col items-start justify-center"
                     style={{ y: contentY, opacity: contentOpacity }}
                 >
                     <SplitText

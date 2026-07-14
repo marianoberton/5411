@@ -73,7 +73,7 @@ export default function LogoIntro() {
                 <motion.div
                     className="fixed inset-0 z-[120] flex items-center justify-center bg-[#0F0F0F]"
                     initial={{ opacity: 1 }}
-                    exit={{ scaleX: 0, transition: { duration: 0.75, ease: expo, delay: 0.04 } }}
+                    exit={{ scaleX: 0, transition: { duration: 1.0, ease: expo, delay: 0.04 } }}
                     style={{ transformOrigin: 'right' }}
                 >
                     {/* Halos de marca apenas perceptibles detrás del logo. */}

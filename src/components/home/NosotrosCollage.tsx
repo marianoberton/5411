@@ -32,9 +32,15 @@ export default function NosotrosCollage() {
     const desktopTrigger = useRef(null)
     const desktopInView = useInView(desktopTrigger, { once: true })
 
-    // Mobile: trigger al entrar la sección (layout vertical, imágenes se ven de a una)
-    const mobileTrigger = useRef(null)
+    // Mobile: collage escalonado. Un solo ref sirve de trigger de entrada y de
+    // target de scroll para el drift por capas (profundidad).
+    const mobileTrigger = useRef<HTMLDivElement>(null)
     const mobileInView = useInView(mobileTrigger, { once: true, margin: '-80px 0px' })
+    const { scrollYProgress: mScroll } = useScroll({ target: mobileTrigger, offset: ['start end', 'end start'] })
+    const mDrift1 = useTransform(mScroll, [0, 1], [28, -28])
+    const mDrift2 = useTransform(mScroll, [0, 1], [52, -52])
+    const mDrift3 = useTransform(mScroll, [0, 1], [40, -40])
+    const mDrift4 = useTransform(mScroll, [0, 1], [64, -64])
 
     // Profundidad: cada imagen deriva a una velocidad distinta con el scroll
     // (capas a diferente distancia). El título flota apenas, entre medio.
@@ -113,33 +119,58 @@ export default function NosotrosCollage() {
                 </motion.div>
             </div>
 
-            {/* ── Mobile ── */}
-            <div ref={mobileTrigger} className="md:hidden px-[24px] py-[60px] flex flex-col items-center gap-[24px]">
-                <SplitText
-                    as="h2"
-                    lines={['TU ESTILO DE VIDA,', 'NUESTRA PRIORIDAD']}
-                    play={mobileInView}
-                    delay={0.1}
-                    stagger={0.02}
-                    duration={0.85}
-                    className="font-serif font-normal text-[#0F0F0F] text-center m-0 text-[36px] leading-[1.1]"
-                />
-                <motion.div
-                    className="relative w-full aspect-[4/3] overflow-hidden"
-                    variants={img1V}
-                    initial="hidden"
-                    animate={mobileInView ? 'visible' : 'hidden'}
-                >
-                    <Image src="/images/torre-incas-render-11.jpg" alt="Torre Residencial Los Incas" fill className="object-cover" />
-                </motion.div>
-                <motion.div
-                    className="relative w-full aspect-[3/4] overflow-hidden"
-                    variants={img3V}
-                    initial="hidden"
-                    animate={mobileInView ? 'visible' : 'hidden'}
-                >
-                    <Image src="/images/home-nosotros-1.jpg" alt="Estilo de vida" fill className="object-cover" />
-                </motion.div>
+            {/* ── Mobile: collage escalonado (4 imágenes desfasadas + título al centro) ── */}
+            <div ref={mobileTrigger} className="md:hidden relative px-[20px] pt-[72px] pb-[84px]">
+
+                {/* Par superior — la izquierda baja, la derecha sube (desfase) */}
+                <div className="grid grid-cols-[1.12fr_0.88fr] gap-[16px] items-start">
+                    <motion.div className="relative aspect-[3/4] overflow-hidden mt-[30px]" style={{ y: mDrift1 }}>
+                        <motion.div className="relative w-full h-full overflow-hidden" variants={img1V} initial="hidden" animate={mobileInView ? 'visible' : 'hidden'}>
+                            <motion.div className="relative w-full h-full" variants={zoomV} transition={{ duration: 2.0, ease: expo, delay: 0.1 }}>
+                                <Image src="/images/torre-incas-render-11.jpg" alt="Torre Residencial Los Incas" fill className="object-cover" sizes="55vw" />
+                            </motion.div>
+                        </motion.div>
+                    </motion.div>
+                    <motion.div className="relative aspect-[4/5] overflow-hidden" style={{ y: mDrift2 }}>
+                        <motion.div className="relative w-full h-full overflow-hidden" variants={img2V} initial="hidden" animate={mobileInView ? 'visible' : 'hidden'}>
+                            <motion.div className="relative w-full h-full" variants={zoomV} transition={{ duration: 2.0, ease: expo, delay: 0.25 }}>
+                                <Image src="/images/home-nosotros-2.jpg" alt="Interior moderno" fill className="object-cover" sizes="40vw" />
+                            </motion.div>
+                        </motion.div>
+                    </motion.div>
+                </div>
+
+                {/* Título — pieza central entre los dos pares */}
+                <div className="my-[40px] flex justify-center">
+                    <SplitText
+                        as="h2"
+                        lines={['TU ESTILO DE VIDA,', 'NUESTRA PRIORIDAD']}
+                        play={mobileInView}
+                        delay={0.2}
+                        stagger={0.02}
+                        duration={0.85}
+                        className="font-serif font-normal text-[#0F0F0F] text-center m-0 text-[clamp(30px,8.4vw,44px)] leading-[1.12]"
+                    />
+                </div>
+
+                {/* Par inferior — desfase inverso: la izquierda baja, la derecha sube más */}
+                <div className="grid grid-cols-[0.88fr_1.12fr] gap-[16px] items-start">
+                    <motion.div className="relative aspect-[4/5] overflow-hidden mt-[22px]" style={{ y: mDrift4 }}>
+                        <motion.div className="relative w-full h-full overflow-hidden" variants={img4V} initial="hidden" animate={mobileInView ? 'visible' : 'hidden'}>
+                            <motion.div className="relative w-full h-full" variants={zoomV} transition={{ duration: 2.0, ease: expo, delay: 0.4 }}>
+                                <Image src="/images/home-nosotros-3.jpg" alt="Proceso de construcción" fill className="object-cover" sizes="40vw" />
+                            </motion.div>
+                        </motion.div>
+                    </motion.div>
+                    <motion.div className="relative aspect-[3/4] overflow-hidden -mt-[12px]" style={{ y: mDrift3 }}>
+                        <motion.div className="relative w-full h-full overflow-hidden" variants={img3V} initial="hidden" animate={mobileInView ? 'visible' : 'hidden'}>
+                            <motion.div className="relative w-full h-full" variants={zoomV} transition={{ duration: 2.0, ease: expo, delay: 0.55 }}>
+                                <Image src="/images/home-nosotros-1.jpg" alt="Estilo de vida" fill className="object-cover" sizes="55vw" />
+                            </motion.div>
+                        </motion.div>
+                    </motion.div>
+                </div>
+
             </div>
 
         </section>

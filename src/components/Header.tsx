@@ -13,12 +13,18 @@ const NAV_LINKS = [
   ['CONTACTO', '/contacto'],
 ] as const;
 
+// El menú mobile agrega INICIO (en desktop el logo ya lleva al home).
+const MOBILE_NAV_LINKS = [
+  ['INICIO', '/'],
+  ...NAV_LINKS,
+] as const;
+
 const expo: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 // Las vistas con fondo claro usan texto/logo oscuro; el resto (heros con
 // imagen oscura) usan texto blanco y logo invertido.
 function isLightTheme(pathname: string) {
-  return pathname.startsWith('/propuesta') || pathname.startsWith('/contacto')
+  return pathname.startsWith('/contacto')
 }
 
 function readBrand() {
@@ -38,7 +44,7 @@ function BrandMark({ ink, wink }: { ink: string; wink: number }) {
   return (
     <motion.svg
       viewBox={MARK_VIEWBOX}
-      className="block h-[68px] lg:h-[96px] 3xl:h-[118px] w-auto overflow-visible"
+      className="block h-[96px] lg:h-[136px] 3xl:h-[164px] w-auto overflow-visible"
       aria-hidden="true"
     >
       <g transform={MARK_TRANSFORM} stroke="none">
@@ -88,7 +94,7 @@ export default function Header() {
   return (
     <header
       id="siteHeader"
-      className="absolute top-0 left-0 w-full z-50 flex justify-center"
+      className="absolute top-0 left-0 w-full z-[100] flex justify-center"
     >
       <div className="w-full max-w-[1440px] 2xl:max-w-[1660px] 3xl:max-w-[1880px] flex items-start justify-between px-6 sm:px-10 lg:px-[56px] 3xl:px-[80px] py-[22px] lg:py-[30px] 3xl:py-[40px]">
 
@@ -105,7 +111,7 @@ export default function Header() {
         </motion.div>
 
         {/* Navegación desktop */}
-        <nav className="hidden md:flex items-center gap-[46px] 3xl:gap-[64px] pt-[22px] 3xl:pt-[30px]">
+        <nav className="hidden md:flex items-center gap-[50px] 3xl:gap-[68px] pt-[34px] lg:pt-[48px] 3xl:pt-[58px]">
           {NAV_LINKS.map(([label, href], i) => (
             <motion.div
               key={label}
@@ -116,7 +122,7 @@ export default function Header() {
               <Link
                 href={href}
                 data-active={pathname === href}
-                className={`link-lift font-sans font-bold text-[18px] 3xl:text-[22px] tracking-[0.6px] whitespace-nowrap transition-colors rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 ${
+                className={`link-lift font-sans font-bold text-[20px] lg:text-[22px] 3xl:text-[26px] tracking-[0.6px] whitespace-nowrap transition-colors rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 ${
                   light
                     ? 'text-[#0F0F0F] focus-visible:outline-[#0F0F0F]'
                     : 'text-[rgba(255,255,255,0.92)] hover:text-white focus-visible:outline-white'
@@ -174,8 +180,8 @@ export default function Header() {
               </button>
             </div>
 
-            <nav className="flex-1 flex flex-col justify-center gap-[8px] px-8">
-              {NAV_LINKS.map(([label, href], i) => (
+            <nav className="flex-1 flex flex-col justify-center gap-[8px] px-8 pb-12">
+              {MOBILE_NAV_LINKS.map(([label, href], i) => (
                 <motion.div
                   key={label}
                   initial={{ opacity: 0, x: -24 }}
@@ -194,13 +200,6 @@ export default function Header() {
                 </motion.div>
               ))}
             </nav>
-
-            <div className="px-8 pb-12">
-              <p className="text-white/50 font-sans font-light text-[14px] leading-[1.6] m-0">
-                info@5411briquedes.com<br />
-                4706-0921 / +54 (11) 6271-7818
-              </p>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>

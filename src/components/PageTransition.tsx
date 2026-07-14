@@ -22,7 +22,7 @@ function FrozenRouter({ children }: { children: React.ReactNode }) {
 // La arista nunca es recta: la curva se pronuncia a mitad de camino y se
 // aplana al llegar, como tela con peso.
 
-const easeCurtain: [number, number, number, number] = [0.74, 0, 0.26, 1]
+const easeCurtain: [number, number, number, number] = [0.6, 0, 0.24, 1]
 const expo: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 // viewBox 0 0 100 100 + preserveAspectRatio="none" → coordenadas en % de
@@ -80,12 +80,12 @@ export default function PageTransition({ children }: { children: React.ReactNode
                     <motion.path
                         fill={SURFACE}
                         initial={{ d: REVEAL_D[0] }}
-                        animate={{ d: REVEAL_D, transition: { duration: 0.6, ease: easeCurtain, times: [0, 0.5, 1], delay: 0.12 } }}
+                        animate={{ d: REVEAL_D, transition: { duration: 0.9, ease: easeCurtain, times: [0, 0.5, 1], delay: 0.16 } }}
                     />
                     <motion.path
                         fill={INK}
                         initial={{ d: REVEAL_D[0] }}
-                        animate={{ d: REVEAL_D, transition: { duration: 0.6, ease: easeCurtain, times: [0, 0.5, 1], delay: 0.04 } }}
+                        animate={{ d: REVEAL_D, transition: { duration: 0.9, ease: easeCurtain, times: [0, 0.5, 1], delay: 0.06 } }}
                     />
 
                     {/* CUBRIR — al salir: el crema asoma como filo, la tinta sella detrás. */}
@@ -93,13 +93,13 @@ export default function PageTransition({ children }: { children: React.ReactNode
                         fill={SURFACE}
                         initial={{ d: COVER_D[0] }}
                         animate={{ d: COVER_D[0] }}
-                        exit={{ d: COVER_D, transition: { duration: 0.42, ease: easeCurtain, times: [0, 0.5, 1] } }}
+                        exit={{ d: COVER_D, transition: { duration: 0.62, ease: easeCurtain, times: [0, 0.5, 1] } }}
                     />
                     <motion.path
                         fill={INK}
                         initial={{ d: COVER_D[0] }}
                         animate={{ d: COVER_D[0] }}
-                        exit={{ d: COVER_D, transition: { duration: 0.42, ease: easeCurtain, times: [0, 0.5, 1], delay: 0.07 } }}
+                        exit={{ d: COVER_D, transition: { duration: 0.62, ease: easeCurtain, times: [0, 0.5, 1], delay: 0.1 } }}
                     />
                 </svg>
 
@@ -107,9 +107,9 @@ export default function PageTransition({ children }: { children: React.ReactNode
                        la entrante asciende y asienta cuando la cortina la libera. ── */}
                 <motion.div
                     className="w-full"
-                    initial={{ opacity: 0, y: 32 }}
-                    animate={{ opacity: 1, y: 0, transition: { duration: 0.75, ease: expo, delay: 0.1 } }}
-                    exit={{ opacity: 0.75, y: -28, transition: { duration: 0.49, ease: easeCurtain } }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0, transition: { duration: 0.95, ease: expo, delay: 0.16 } }}
+                    exit={{ opacity: 0.75, y: -24, transition: { duration: 0.62, ease: easeCurtain } }}
                 >
                     <FrozenRouter>{children}</FrozenRouter>
                 </motion.div>

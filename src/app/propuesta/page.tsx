@@ -16,7 +16,7 @@ function HeroPropuesta() {
     const overlay = useTransform(scrollYProgress, [0, 1], [0.32, 0.55])
 
     return (
-        <section ref={ref} className="relative w-full h-[78vh] min-h-[520px] lg:h-[88vh] overflow-hidden flex items-center justify-center">
+        <section ref={ref} className="relative w-full h-svh min-h-[520px] overflow-hidden flex items-center justify-center">
             <motion.div className="absolute inset-0" style={{ y, scale }}>
                 <Image
                     src="/images/otros/blueprints.jpg"
